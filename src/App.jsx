@@ -1,21 +1,48 @@
 import React from 'react'
-import { Outlet, Link } from 'react-router-dom'
+import { 
+  BrowserRouter as Router, 
+  Routes, 
+  Route 
+} from 'react-router-dom'
+
+// Import Pages
+import Home from './pages/Home'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import Dashboard from './pages/Dashboard'
+import LiveStreaming from './pages/LiveStreaming'
+import EditProfile from './pages/EditProfile'
+
+// Import Private Route
+import PrivateRoute from './components/PrivateRoute'
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <nav className="bg-jakarta-primary text-white p-4">
-        <div className="container mx-auto flex justify-between items-center">
-          <Link to="/" className="text-xl font-bold">Jakarta Platform</Link>
-          <div className="space-x-4">
-            <Link to="/" className="hover:text-gray-300">Home</Link>
-            <Link to="/dashboard" className="hover:text-gray-300">Dashboard</Link>
-          </div>
-        </div>
-      </nav>
-      
-      <Outlet />
-    </div>
+    <Router>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        {/* Private Routes */}
+        <Route element={<PrivateRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/live-streaming" element={<LiveStreaming />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
+        </Route>
+
+        {/* 404 Route */}
+        <Route 
+          path="*" 
+          element={
+            <div className="flex items-center justify-center min-h-screen">
+              <h1 className="text-4xl">404 - Page Not Found</h1>
+            </div>
+          } 
+        />
+      </Routes>
+    </Router>
   )
 }
 
